@@ -1,7 +1,6 @@
 import streamlit as st
 import random
 
-# Таксономия arXiv (основные категории)
 ARXIV_CATEGORIES = [
     "cs.AI - Artificial Intelligence",
     "cs.CL - Computation and Language",
@@ -95,42 +94,34 @@ ARXIV_CATEGORIES = [
 ]
 
 def main():
-    # Настройка страницы
     st.set_page_config(
         page_title="arXiv Papers Classifier",
         page_icon="📚",
         layout="wide"
     )
     
-    # Заголовок приложения
     st.title("📚 arXiv papers classifier")
     
-    # Создание двух колонок для формы ввода и результатов
     col1, col2 = st.columns([1, 1])
     
     with col1:
-        # Форма ввода заголовка
         title = st.text_area(
             "**Input title:**",
             placeholder="Enter the paper title here...",
             height=100
         )
         
-        # Форма ввода аннотации (больше по высоте)
         abstract = st.text_area(
             "**Input abstract:**",
             placeholder="Enter the abstract here...",
             height=300
         )
         
-        # Кнопка для классификации
         classify_button = st.button("🔍 Classify Paper", type="primary", use_container_width=True)
     
     with col2:
-        # Поле для вывода результатов
         st.markdown("**The most probable categories**")
         
-        # Создание контейнера для результатов
         results_container = st.container(border=True)
         
         with results_container:
@@ -153,29 +144,5 @@ def main():
                 # Заглушка до нажатия кнопки
                 st.info("👈 Enter paper details and click 'Classify Paper' to see results")
                 st.caption("The classifier will display 5 random arXiv categories as a demo.")
-    
-    # Дополнительная информация внизу страницы
-    with st.expander("ℹ️ About this app"):
-        st.markdown("""
-        This is a **demo application** for arXiv papers classification.
-        
-        **Features:**
-        - Input paper title and abstract
-        - Returns 5 random categories from the arXiv taxonomy
-        
-        **Next steps:**
-        - Replace random selection with actual ML model
-        - Implement real classification logic
-        - Add confidence scores for predictions
-        
-        **arXiv taxonomy includes categories from:**
-        - Computer Science (cs.*)
-        - Mathematics (math.*)
-        - Physics (physics.*)
-        - Quantitative Biology (q-bio.*)
-        - Quantitative Finance (q-fin.*)
-        - Statistics (stat.*)
-        """)
 
-if __name__ == "__main__":
-    main()
+main()
