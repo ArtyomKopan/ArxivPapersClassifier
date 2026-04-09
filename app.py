@@ -51,6 +51,7 @@ def get_top_categories_cumulative(probabilities, id_to_label, threshold=0.95):
         prob = probabilities[idx]
         cumulative_prob += prob
         category = id_to_label[idx] if id_to_label else f'Class_{idx}'
+        category += ' ' + str(prob)
         selected_categories.append(category)
         
         if cumulative_prob >= threshold:
@@ -135,7 +136,7 @@ def main():
                             st.markdown(f'**{i}.** `{category}`')
                                             
                     except Exception as e:
-                        st.error(f'Ошибка при классификации: {str(e)}')
+                        st.error(f'Error: {str(e)}')
                     
                     finally:
                         progress_bar.empty()
