@@ -231,7 +231,7 @@ def main():
                         
                         selected_categories = predict_category(
                             title, abstract, model, tokenizer, 
-                            device='cpu', id_to_label
+                            id_to_label, device='cpu'
                         )
                         
                         progress_bar.progress(100, text='Complete!')
