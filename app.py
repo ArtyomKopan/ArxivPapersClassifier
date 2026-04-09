@@ -59,7 +59,7 @@ def get_top_categories_cumulative(probabilities, id_to_label, threshold=0.95):
     return selected_categories
 
 def predict_category(title, abstract, model, tokenizer, device, id_to_label):
-    text = f'{title} [SEP] {abstract}' if abstract.strip() else text = title
+    text = f'{title} [SEP] {abstract}' if abstract.strip() else title
     
     encoding = tokenizer(
         text,
