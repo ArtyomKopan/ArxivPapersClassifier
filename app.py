@@ -138,11 +138,11 @@ def load_model_and_tokenizer(model_path='my_model'):
                 label_mapping = json.load(f)
                 id_to_label = {int(k): v for k, v in label_mapping['id_to_label'].items()}
         
-        return model, tokenizer, id_to_label
+        return model, tokenizer, device, id_to_label
     
     except Exception as e:
-        st.error(f'Error during loading of model: {str(e)}')
-        return None, None, None
+        st.error(f'Error during loading model: {str(e)}')
+        return None, None, None, None
 
 def get_top_categories_cumulative(probabilities, id_to_label, threshold=0.95):
     sorted_indices = np.argsort(probabilities)[::-1]
@@ -154,7 +154,6 @@ def get_top_categories_cumulative(probabilities, id_to_label, threshold=0.95):
         prob = probabilities[idx]
         cumulative_prob += prob
         category = id_to_label[idx] if id_to_label else f'Class_{idx}'
-        # category += ' ' + str(prob)
         category += f' ({arxiv_categories[category]})'
         selected_categories.append(category)
         
@@ -164,7 +163,7 @@ def get_top_categories_cumulative(probabilities, id_to_label, threshold=0.95):
     return selected_categories
 
 def predict_category(title, abstract, model, tokenizer, device, id_to_label):
-    text = f'{title} [SEP] {abstract}' if abstract.strip() else title
+    text = f'{title} [SEP] {abstract}' if abstract.strip() else text = title
     
     encoding = tokenizer(
         text,
@@ -192,7 +191,7 @@ def main():
     st.title('arXiv papers classifier')
     
     with st.spinner('Loading model and tokenizer...'):
-        model, tokenizer, id_to_label = load_model_and_tokenizer()
+        model, tokenizer, device, id_to_label = load_model_and_tokenizer()
     
     col1, col2 = st.columns([1, 1])
     
@@ -231,7 +230,7 @@ def main():
                         
                         selected_categories = predict_category(
                             title, abstract, model, tokenizer, 
-                            id_to_label, device='cpu'
+                            device, id_to_label
                         )
                         
                         progress_bar.progress(100, text='Complete!')
@@ -240,7 +239,7 @@ def main():
                             st.markdown(f'**{i}.** `{category}`')
                                             
                     except Exception as e:
-                        st.error(f'Error: {str(e)}')
+                        st.error(f'Ошибка при классификации: {str(e)}')
                     
                     finally:
                         progress_bar.empty()
