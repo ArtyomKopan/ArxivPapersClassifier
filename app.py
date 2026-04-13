@@ -116,7 +116,7 @@ st.set_page_config(
 )
 
 @st.cache_resource
-def load_model_and_tokenizer(model_path='calibrated_model'):
+def load_model_and_tokenizer(model_path='my_model'):
     device = 'cpu'
     
     try:
